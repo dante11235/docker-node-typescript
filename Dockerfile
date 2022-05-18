@@ -1,5 +1,5 @@
 # Specify the image that this app is going to be built from.  This is a docker hub hosted Node image
-	FROM node:8
+	FROM node:lts-alpine3.14
 
 # Specify the username this app is going to run in
 	ENV USER=app
@@ -8,7 +8,7 @@
 	ENV SUBDIR=appDir
 
 # Create a user named $USER.  Run npm install as root before doing other commands
-	RUN useradd --user-group --create-home --shell /bin/false $USER &&\
+	RUN adduser -D -s /bin/false $USER &&\
 		npm install --global tsc-watch npm ntypescript typescript gulp-cli concurrently
 
 # The default directory created for a user in node is /home/user_name
