@@ -9,7 +9,7 @@
 
 # Create a user named $USER.  Run npm install as root before doing other commands
 	RUN adduser -D -s /bin/false $USER &&\
-		npm install --global tsc-watch npm ntypescript typescript gulp-cli concurrently
+		npm install --global tsc-watch npm ntypescript typescript gulp-cli concurrently @nestjs/cli
 
 # The default directory created for a user in node is /home/user_name
 	ENV HOME=/home/$USER

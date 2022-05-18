@@ -9,17 +9,33 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - .:/home/app/appDir
+      - .:/home/app/appDir:cached
       - /home/app/appDir/node_modules
     networks:
       - backend
 
-  postgres:
-    image: postgres
+  postgres-dev:
+    image: postgres:14
     environment:
       - POSTGRES_PASSWORD=password
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres-dev:/var/lib/postgresql/data
+    ports:
+      - "15432:5432"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 1s
+      timeout: 1s
+      retries: 600
+
+  postgres-stage:
+    image: postgres:14
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-stage:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
@@ -35,5 +51,6 @@ networks:
     name: app
 
 volumes:
-  postgres:
+  postgres-dev:
+  postgres-stage:
 
